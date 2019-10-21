@@ -1,0 +1,19 @@
+{
+    "name": "alex/ethwallet",
+    "description": "Test DApp",
+    "authors": [
+        {
+            "name": "AlekseyTr",
+            "email": "market_fx@mail.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        }
+    },
+    "require": {
+        "symfony/http-kernel": "^4.3",
+        "illuminate/database": "^6.3"
+    }
+}
