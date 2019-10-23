@@ -79,7 +79,8 @@ class Wallet extends BaseModel
             // TODO: convert balance to decimal
             $balance = $apiResponse->getResult();
             $balance = hexdec($balance);
-            $balance = sprintf('%f', $balance);
+            $balance = sprintf('%e', $balance);
+            $balance = mb_substr($balance, 0, 5);
         }
         return $balance;
     }
