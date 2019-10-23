@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Components\Api\Response;
+use App\Components\App;
 
 class Wallet extends BaseModel
 {
+    protected static $table = 'wallet';
+
     private $id;
 
     private $address;
@@ -52,13 +55,33 @@ class Wallet extends BaseModel
         $this->type = $type;
     }
 
-    protected $table = 'wallet';
-
     public function attributesToSave()
     {
         return array(
             'address'
         );
+    }
+
+    public function dateAttributesToSave()
+    {
+        return array(
+            'created',
+        );
+    }
+    public static function getBalance($address)
+    {
+        $balance = null;
+        /* @var $apiResponse Response */
+        $apiResponse = App::$infura->client->eth_getBalance([
+            $address, 'latest'
+        ]);
+        if ($apiResponse->isSuccess()) {
+            // TODO: convert balance to decimal
+            $balance = $apiResponse->getResult();
+            $balance = hexdec($balance);
+            $balance = sprintf('%f', $balance);
+        }
+        return $balance;
     }
 
 }

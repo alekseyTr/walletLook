@@ -8,6 +8,7 @@
 
 namespace App\Components;
 
+use App\Components\Api\Infura;
 use Symfony\Component\HttpFoundation\Request;
 
 class App
@@ -20,6 +21,8 @@ class App
 
     public static $db;
 
+    public static $infura;
+
     public static function init()
     {
         // Bootstrap
@@ -27,5 +30,6 @@ class App
         static::$request = Request::createFromGlobals();
         static::$kernel = new Kernel();
         static::$db = new Db();
+        static::$infura = new Infura();
     }
 }

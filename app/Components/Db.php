@@ -28,8 +28,11 @@ class Db
             'user' => $config['user'],
             'pass' => $config['pass'],
         ];
+        $options = [
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+        ];
 
-        $this->pdo = new \PDO($settings['dsn'], $settings['user'], $settings['pass'], null);
+        $this->pdo = new \PDO($settings['dsn'], $settings['user'], $settings['pass'], $options);
     }
 
     public function execute($query, array $params=null)
@@ -41,5 +44,28 @@ class Db
             $request = $this->pdo->query($query);
         }
         return $request->fetchAll();
+    }
+
+    public function insert($table, array $attributes)
+    {
+        $params = [];
+        foreach ($attributes as $attribute => $value)
+            $params[":$attribute"] = $value;
+        $query = "INSERT INTO $table (".implode(',', array_keys($attributes)).') VALUES('.implode(',', array_keys($params)).')';
+        $this->execute($query, $params);
+    }
+
+    public function delete($table, $condition)
+    {
+        $query = "DELETE FROM $table WHERE $condition";
+        return $this->pdo->exec($query);
+    }
+
+    public function select($table, $condition = '')
+    {
+        $query = "SELECT * FROM $table";
+        if ($condition)
+            $query .= " WHERE $condition";
+        return $this->execute($query);
     }
 }

@@ -11,6 +11,7 @@ namespace App\Components;
 class Kernel
 {
     public static $defaultControllerName = 'Controller';
+
     public static $defaultActionName = "index";
 
     public function launch()
@@ -28,7 +29,9 @@ class Kernel
             throw new \InvalidArgumentException;
 
         $controller = new $controllerName;
-        $actionName = empty($actionName) ? "action{$this::$defaultActionName}" : "action$actionName";
+        $actionName = empty($actionName) ? $this::$defaultActionName : $actionName;
+        $controller->action = $actionName;
+        $actionName = "action$actionName";
 
         if (!method_exists($controller, $actionName))
             throw new \InvalidArgumentException;

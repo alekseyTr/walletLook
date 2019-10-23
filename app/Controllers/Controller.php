@@ -3,12 +3,21 @@ namespace App\Controllers;
 
 use App\Components\App;
 use App\Models\Wallet;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Controller
 {
     public $title;
 
-    public function render ($viewName, array $params = [])
+    public $action;
+
+    function redirect($url, $statusCode = 302)
+    {
+        $response = new RedirectResponse($url, $statusCode);
+        $response->send();
+    }
+
+    public function render($viewName, array $params = [])
     {
         extract($params);
         ob_start();
@@ -26,17 +35,32 @@ class Controller
 
     public function actionIndex()
     {
-        $this->title = 'ETH wallet tracking';
-        return $this->render('index');
+        $this->title = 'Список кошельков';
+        $wallets = Wallet::getAll();
+        return $this->render('index', compact('wallets'));
     }
 
     public function actionAddWallet()
     {
-        if ($form = App::$request->query->get('Wallet')) {
+        if ($form = App::$request->request->get('Wallet')) {
             $wallet = new Wallet($form);
             $wallet->save();
         }
-        return $this->render('index');
+        $this->redirect('/');
+    }
+
+    public function actionRemoveWallet()
+    {
+        if ($walletId = App::$request->query->get('id'))
+            Wallet::deleteByPk($walletId);
+        $this->redirect('/');
+    }
+
+    public function actionTransactions()
+    {
+        // TODO: use websokets server
+        $this->title = 'Список транзакций';
+        return $this->render('transactions');
     }
 
 }
