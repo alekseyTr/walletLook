@@ -17,11 +17,11 @@ class Db
         // TODO: set setting from configs (.env)
         $config = [
             'type' => 'mysql',
-            'host' => 'localhost',
-            'dbname' => 'wallet_look',
+            'host' => 'mysql',
+            'dbname' => 'app',
             'charset' => 'utf8',
-            'user' => 'root',
-            'pass' => ''
+            'user' => 'admin',
+            'pass' => 'test',
         ];
         $settings = [
             'dsn' => "{$config['type']}:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}",
