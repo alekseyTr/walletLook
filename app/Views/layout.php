@@ -23,17 +23,25 @@
     <title><?= $this->getTitle()?></title>
 
     <style>
+        h1 {
+            margin: 3rem 1rem;
+        }
         header .navbar {
             border-radius: 6px;
             margin-top: 2rem;
             margin-bottom: 2rem;
         }
-        .navbar-nav {
-            margin-left: 3rem;
-        }
         .navbar-nav .active {
             border-bottom: 1px solid;
         }
+        .transaction-table td,
+        .table .overflow {
+            max-width: 300px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
     </style>
 </head>
 <body>
@@ -42,10 +50,11 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <h1><?= $this->getTitle();?></h1>
+                <h1><?= $this->getTitle();?></h1>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link <?= $this->action == 'index' ? 'active' : null?>" href="/">Кошельки</a>
+                        <a class="nav-item nav-link <?= $this->action == 'allTransactions' ? 'active' : null?>" href="/allTransactions">Все транзакции сети</a>
                     </div>
                 </nav>
             </div>
@@ -61,5 +70,6 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

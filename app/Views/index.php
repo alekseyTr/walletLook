@@ -57,20 +57,18 @@ use App\Models\Wallet;
                       <th scope="col"></th>
                   </tr>
                   <?php foreach ($wallets as $wallet) :?>
+                      <?php $balance = Wallet::getBalance($wallet['address']);?>
                       <tr scope="row">
                           <td><?= $wallet['id']?></td>
-                          <td><?= $wallet['address']?></td>
-                          <td>
-                              <?php
-                              $balance = Wallet::getBalance($wallet['address']);
-                              if (is_null($balance))
-                                  echo 'Указан неверный адрес';
-                              else
-                                  echo $balance . ' ETH'
-                              ?>
-                          </td>
+                          <td class="overflow"><?= is_null($balance) ? $wallet['address'] : "<a href='/walletTransactions?id={$wallet['id']}'>{$wallet['address']}</a>"?></td>
+                          <td><?= is_null($balance) ? 'Указан неверный адрес' : "$balance ETH"?></td>
                           <td><?= date('d.m.Y h:i', strtotime($wallet['created']))?></td>
-                          <td><a href="/removeWallet?id=<?= $wallet['id']?>" type="button" class="btn btn-danger">Удалить</a></td>
+                          <td>
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                  <a href="/walletTransactions?id=<?= $wallet['id']?>" class="btn btn-primary">Транзакции</a>
+                                  <a href="/removeWallet?id=<?= $wallet['id']?>" class="btn btn-danger">Удалить</a>
+                              </div>
+                          </td>
                       </tr>
                   <?php endforeach; ?>
               </table>

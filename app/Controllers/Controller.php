@@ -56,11 +56,19 @@ class Controller
         $this->redirect('/');
     }
 
-    public function actionTransactions()
+    public function actionAllTransactions()
     {
-        // TODO: use websokets server
-        $this->title = 'Список транзакций';
+        $this->title = 'Список всех транзакций';
         return $this->render('transactions');
+    }
+
+    public function actionWalletTransactions()
+    {
+        if (!$walletId = App::$request->query->get('id'))
+            $this->redirect('/');
+        $wallet = Wallet::getByPk($walletId);
+        $this->title = 'Список транзакций';
+        return $this->render('transactions', compact('wallet'));
     }
 
 }
